@@ -10,24 +10,34 @@ class TestRegistrationWithNewCredentials:
 
     def test_sucsess_registration(self, driver):
         #arrange
-        email, password = generate_registration_data()
-        driver.find_element(*Locators.REG_BUTTON).click()
-        driver.find_element(*Locators.EMAIL).send_keys(email)
-        driver.find_element(*Locators.PASSWORD).send_keys(password)
+        driver.get(registration_url)
+        name, email, password = generate_registration_data()
+
+        driver.find_element(*Locators.REG_NAME).send_keys(name)
+        driver.find_element(*Locators.REG_EMAIL).send_keys(email)
+        driver.find_element(*Locators.REG_PASSWORD).send_keys(password)
         #act
         driver.find_element(*Locators.REGISTER_BUTTON).click()
-        reg_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(Locators.REG_POPUP)).text
+
         #assert
-        assert reg_text == 'Вы успешно зарегистрировались'
-        assert driver.current_url == main_site
+        assert driver.current_url == account_login
 
 class TestCheckingCreationExistingAccount:
 
     def test_failed_registration(self, driver):
-        driver.find_element(*Locators.REG_BUTTON).click()
-        driver.find_element(*Locators.EMAIL).send_keys(Credentials.email)
-        driver.find_element(*Locators.PASSWORD).send_keys(Credentials.password)
-        driver.find_element(*Locators.REGISTER_BUTTON).click()
-        reg_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(Locators.REG_POPUP)).text
-        assert reg_text == 'Что-то пошло не так!\nПопробуйте ещё раз.'
+        #arrange
+        driver.get(registration_url)
+        name, email, password = generate_registration_data()
+
+        driver.find_element(*Locators.REG_NAME).send_keys(name)
+        driver.find_element(*Locators.REG_EMAIL).send_keys(email)
+        driver.find_element(*Locators.REG_PASSWORD).send_keys('12345')
+
+        #act
+        driver.find_element(*Locators.REGISTER_BUTTON).click()  
+        
+        #assert
+        error_text_element = driver.find_element(*Locators.ERROR_PASSWORD_TEXT)
+        
+        assert error_text_element.is_displayed()  == True
 
