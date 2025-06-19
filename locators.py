@@ -2,15 +2,16 @@ from selenium.webdriver.common.by import By
 
 
 class Locators:
-    # Локаторы для регистрации
-    REG_BUTTON = [By.XPATH, "//a[@class='header__auth-link']"]
-    REG_POPUP = (By.XPATH, "//p[@class='popup__status-message']")
-    EMAIL = (By.ID, 'email')
-    PASSWORD = (By.ID, 'password')
-    REGISTER_BUTTON = By.XPATH, "//button[@class='auth-form__button']"
 
-    # Локаторы для изменения аватара
-    PROFILE_IMAGE = (By.XPATH, "//div[@class='profile__image']")
-    AVATAR_INPUT = (By.ID, "owner-avatar")
-    UPDATE_AVATAR_BUTTON = (By.XPATH, "//form[@name='edit-avatar']/button[@class='button popup__button']")
-    CARDS = (By.CLASS_NAME, "card__image")
+    # Локаторы для регистрации
+    REGISTER_BUTTON = (By.XPATH, "//button[text() = 'Зарегистрироваться']")
+    REG_ERROR = (By.XPATH, "//p[@class='input__error text_type_main-default']")
+    EMAIL = (By.XPATH, "//label[text()='email']..//input")
+    PASSWORD = (By.XPATH, "//label[text()='Пароль']..//input")
+ 
+
+    # Локаторы для страницы входа
+    # Локаторы для выхода
+    # Локаторы для раздела конструктор
+    # Локаторы для переходов из личного кабинета
+    # Локаторы для переходов в личный кабинет
