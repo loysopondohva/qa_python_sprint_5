@@ -47,6 +47,7 @@ def driver_with_login_logout():
     browser.find_element(*Locators.LOGIN_PASSWORD).send_keys(Credentials.password)
     browser.find_element(*Locators.LOGIN_BUTTON).click()
     WebDriverWait(browser, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_HEADER_LINK))
+    browser.find_element(*Locators.LOGO_HEADER_LINK).click()
 
     yield browser
     

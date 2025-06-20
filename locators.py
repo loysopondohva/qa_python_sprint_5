@@ -21,9 +21,11 @@ class Locators:
     ACTIVE_HEADER_LINK      = (By.XPATH, "//header//nav//a[contains(@class,'link_active')]")
 
     CONSTRUCT_ROLLS_LINK    = (By.XPATH, "//main//div[span[contains(text(), 'Булки')]]")
+    CONSTRUCT_ROLLS_HEADER = (By.XPATH, "//h2[contains(text(),'Булки')]")
     CONSTRUCT_SAUCES_LINK   = (By.XPATH, "//main//div[span[contains(text(), 'Соусы')]]")
     CONSTRUCT_SAUCES_HEADER = (By.XPATH, "//h2[contains(text(),'Соусы')]")
     CONSTRUCT_TOPPINGS_LINK = (By.XPATH, "//main//div[span[contains(text(), 'Начинки')]]")
+    CONSTRUCT_TOPPINGS_HEADER = (By.XPATH, "//h2[contains(text(),'Начинки')]")    
     CONSTRUCT_LINK_ACTIVE   = (By.XPATH, "//div[contains(@class, 'tab_tab_type_current')]")
 
     # Дополнительные локаторы для теста входа в личный кабинет
