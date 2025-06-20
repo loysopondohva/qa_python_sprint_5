@@ -47,3 +47,16 @@ class TestRegistrationForm:
         
         assert error_text_element.is_displayed()  == True
 
+    def test_registration_empty_password_page_not_changed(self, driver):
+        #arrange
+        self.driver = driver
+        
+        name, email, password = generate_registration_data()
+        password = ''
+
+        self._register_user(name, email, password)  
+        
+        #assert
+        
+        assert self.driver.current_url  == registration_url
+

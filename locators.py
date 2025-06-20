@@ -16,11 +16,13 @@ class Locators:
     BURGER_CONSTRUCTOR_BUTTON = (By.XPATH, "//section[contains(@class,'BurgerConstructor_basket')]//button")
     MAKE_ORDER_BUTTON       = (By.XPATH, "//main//button[contains(text(), 'Оформить заказ')]")
     ACCOUNT_HEADER_LINK     = (By.XPATH, "//header//a//p[contains(text(), 'Личный Кабинет')]")
-    LOGO_HEADER_LINK        = (By.XPATH, "//header/nav/div/a[@href = '/']")
-    CONSTRUCT_HEADER_LINK   = (By.XPATH, "//header/nav/ul/li/a[@href = '/']")
+    LOGO_HEADER_LINK        = (By.XPATH, "//header/nav/div[contains(@class,'logo')]")
+    CONSTRUCT_HEADER_LINK   = (By.XPATH, "//header/nav//a//p[contains(text(), 'Конструктор')]")
+    ACTIVE_HEADER_LINK      = (By.XPATH, "//header//nav//a[contains(@class,'link_active')]")
 
     CONSTRUCT_ROLLS_LINK    = (By.XPATH, "//main//div[span[contains(text(), 'Булки')]]")
     CONSTRUCT_SAUCES_LINK   = (By.XPATH, "//main//div[span[contains(text(), 'Соусы')]]")
+    CONSTRUCT_SAUCES_HEADER = (By.XPATH, "//h2[contains(text(),'Соусы')]")
     CONSTRUCT_TOPPINGS_LINK = (By.XPATH, "//main//div[span[contains(text(), 'Начинки')]]")
     CONSTRUCT_LINK_ACTIVE   = (By.XPATH, "//div[contains(@class, 'tab_tab_type_current')]")
 
