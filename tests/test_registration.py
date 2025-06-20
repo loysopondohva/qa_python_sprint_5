@@ -10,7 +10,6 @@ class TestRegistrationWithNewCredentials:
 
     def test_sucsess_registration(self, driver):
         #arrange
-        driver.get(registration_url)
         name, email, password = generate_registration_data()
 
         driver.find_element(*Locators.REG_NAME).send_keys(name)
