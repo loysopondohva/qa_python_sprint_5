@@ -6,37 +6,44 @@ from helper import generate_registration_data
 from locators import Locators
 from curl import *
 
-class TestRegistrationWithNewCredentials:
+class TestRegistrationForm:
+    
+    # Выносим заполнение полей логинации в отдельный метод для повторного использования
+    def _register_user(self, name, email, password):
 
-    def test_sucsess_registration(self, driver):
+        self.driver.get(registration_url)
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.REGISTER_BUTTON))
+        
+
+        self.driver.find_element(*Locators.REG_NAME).send_keys(name)
+        self.driver.find_element(*Locators.REG_EMAIL).send_keys(email)
+        self.driver.find_element(*Locators.REG_PASSWORD).send_keys(password)
+        #act
+        self.driver.find_element(*Locators.REGISTER_BUTTON).click()
+        
+
+    def test_registration_generated_credentials_success(self, driver):
         #arrange
+        self.driver = driver
         name, email, password = generate_registration_data()
 
-        driver.find_element(*Locators.REG_NAME).send_keys(name)
-        driver.find_element(*Locators.REG_EMAIL).send_keys(email)
-        driver.find_element(*Locators.REG_PASSWORD).send_keys(password)
-        #act
-        driver.find_element(*Locators.REGISTER_BUTTON).click()
-
+        self._register_user(name, email, password)
         #assert
-        assert driver.current_url == account_login
+        WebDriverWait(self.driver, 5).until(EC.url_changes(self.driver.current_url))
 
-class TestCheckingCreationExistingAccount:
+        assert self.driver.current_url == account_login
 
-    def test_failed_registration(self, driver):
+    def test_registration_wrong_password_allert_shows(self, driver):
         #arrange
-        driver.get(registration_url)
+        self.driver = driver
+        
         name, email, password = generate_registration_data()
+        password = '12345'
 
-        driver.find_element(*Locators.REG_NAME).send_keys(name)
-        driver.find_element(*Locators.REG_EMAIL).send_keys(email)
-        driver.find_element(*Locators.REG_PASSWORD).send_keys('12345')
-
-        #act
-        driver.find_element(*Locators.REGISTER_BUTTON).click()  
+        self._register_user(name, email, password)  
         
         #assert
-        error_text_element = driver.find_element(*Locators.ERROR_PASSWORD_TEXT)
+        error_text_element = self.driver.find_element(*Locators.ERROR_PASSWORD_TEXT)
         
         assert error_text_element.is_displayed()  == True
 

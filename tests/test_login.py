@@ -6,28 +6,79 @@ from helper import generate_registration_data
 from locators import Locators
 from curl import *
 
-class TestRegistrationWithNewCredentials:
+class TestLoginFromAnyPlaces:
 
-    def test_sucsess_registration(self, driver):
+    def _wait_and_fill_login_fields(self):
+
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.LOGIN_BUTTON))
+        
+        self.driver.find_element(*Locators.LOGIN_EMAIL).send_keys(Credentials.email)
+        self.driver.find_element(*Locators.LOGIN_PASSWORD).send_keys(Credentials.password)
+        self.driver.find_element(*Locators.LOGIN_BUTTON).click()
+        
+    # Тестирование входа по кнопке "Войти в аккаунт" на главной странице
+    def test_from_login_button_main_page_success(self, driver_with_logout):
         #arrange
-        email, password = generate_registration_data()
-        driver.find_element(*Locators.REG_BUTTON).click()
-        driver.find_element(*Locators.EMAIL).send_keys(email)
-        driver.find_element(*Locators.PASSWORD).send_keys(password)
-        #act
-        driver.find_element(*Locators.REGISTER_BUTTON).click()
-        reg_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(Locators.REG_POPUP)).text
+        self.driver = driver_with_logout
+        self.driver.get(main_site)
+
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_LOGIN_BUTTON))
+        self.driver.find_element(*Locators.ACCOUNT_LOGIN_BUTTON).click()
+
+        self._wait_and_fill_login_fields()
+
+        main_button_text = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(Locators.BURGER_CONSTRUCTOR_BUTTON)).text
         #assert
-        assert reg_text == 'Вы успешно зарегистрировались'
-        assert driver.current_url == main_site
+        assert main_button_text == 'Оформить заказ'
+        assert self.driver.current_url == main_site
 
-class TestCheckingCreationExistingAccount:
+    # Тестирование входа через кнопку "Личный Кабинет"
+    def test_from_account_header_link_main_page_success(self, driver_with_logout):
+        #arrange
+        self.driver = driver_with_logout
+        self.driver.get(main_site)
 
-    def test_failed_registration(self, driver):
-        driver.find_element(*Locators.REG_BUTTON).click()
-        driver.find_element(*Locators.EMAIL).send_keys(Credentials.email)
-        driver.find_element(*Locators.PASSWORD).send_keys(Credentials.password)
-        driver.find_element(*Locators.REGISTER_BUTTON).click()
-        reg_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(Locators.REG_POPUP)).text
-        assert reg_text == 'Что-то пошло не так!\nПопробуйте ещё раз.'
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_HEADER_LINK))
+        self.driver.find_element(*Locators.ACCOUNT_HEADER_LINK).click()
 
+        self._wait_and_fill_login_fields()
+
+        main_button_text = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(Locators.BURGER_CONSTRUCTOR_BUTTON)).text
+        #assert
+
+        assert main_button_text == 'Оформить заказ'
+        assert self.driver.current_url == main_site
+
+    # Тестирование входа через кнопку в форме регистрации
+    def test_from_registration_form_link_success(self, driver_with_logout):
+        #arrange
+        self.driver = driver_with_logout
+        self.driver.get(registration_url)
+
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.REGISTER_LOGIN_LINK))
+        self.driver.find_element(*Locators.REGISTER_LOGIN_LINK).click()
+
+        self._wait_and_fill_login_fields()
+
+        main_button_text = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(Locators.BURGER_CONSTRUCTOR_BUTTON)).text
+        #assert
+
+        assert main_button_text == 'Оформить заказ'
+        assert self.driver.current_url == main_site
+
+    # Тестирование входа через кнопку в форме восстановления пароля
+    def test_from_forgot_password_form_link_success(self, driver_with_logout):
+        #arrange
+        self.driver = driver_with_logout
+        self.driver.get(forgot_password_url)
+
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.FORGOT_PASSWORD_LOGIN_LINK))
+        self.driver.find_element(*Locators.FORGOT_PASSWORD_LOGIN_LINK).click()
+
+        self._wait_and_fill_login_fields()
+
+        main_button_text = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(Locators.BURGER_CONSTRUCTOR_BUTTON)).text
+        #assert
+
+        assert main_button_text == 'Оформить заказ'
+        assert self.driver.current_url == main_site
