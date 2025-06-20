@@ -21,18 +21,11 @@ class TestTransitionByClickAccountButton:
 
         assert self.driver.current_url == account_login
 
-    def test_transition_with_autorization_to_account_page(self, driver_with_logout):
+    def test_transition_with_autorization_to_account_page(self, driver_with_login_logout):
         #arrange
-        self.driver = driver_with_logoutx
-        self.driver.get(account_login)
-
-        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.LOGIN_BUTTON))
-
-        self.driver.find_element(*Locators.LOGIN_EMAIL).send_keys(Credentials.email)
-        self.driver.find_element(*Locators.LOGIN_PASSWORD).send_keys(Credentials.password)
-        self.driver.find_element(*Locators.LOGIN_BUTTON).click()
-
-        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_HEADER_LINK))
+        self.driver = driver_with_login_logout
+        self.driver.get(main_site)      
+        
         self.driver.find_element(*Locators.ACCOUNT_HEADER_LINK).click()
 
 

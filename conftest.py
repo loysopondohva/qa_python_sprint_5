@@ -33,3 +33,27 @@ def driver_with_logout():
     WebDriverWait(browser, 5).until(EC.url_matches(account_login))
 
     browser.quit()
+
+@pytest.fixture(scope="session")
+def driver_with_login_logout():
+    browser = webdriver.Chrome()
+    browser.maximize_window()
+    browser.get(account_url)
+
+    # Логинимся в личный кабинет
+    WebDriverWait(browser, 5).until(EC.visibility_of_element_located(Locators.LOGIN_BUTTON))
+    
+    browser.find_element(*Locators.LOGIN_EMAIL).send_keys(Credentials.email)
+    browser.find_element(*Locators.LOGIN_PASSWORD).send_keys(Credentials.password)
+    browser.find_element(*Locators.LOGIN_BUTTON).click()
+    WebDriverWait(browser, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_HEADER_LINK))
+
+    yield browser
+    
+    # Выходим из аккаунта пользователя
+    browser.get(account_url)
+    WebDriverWait(browser, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_LOGOUT_BUTTON))
+    browser.find_element(*Locators.ACCOUNT_LOGOUT_BUTTON).click()
+    WebDriverWait(browser, 5).until(EC.url_matches(account_login))
+
+    browser.quit()
