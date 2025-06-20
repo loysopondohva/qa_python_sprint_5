@@ -6,28 +6,37 @@ from helper import generate_registration_data
 from locators import Locators
 from curl import *
 
-class TestRegistrationWithNewCredentials:
+class TestTransitionByClickAccountButton:
 
-    def test_sucsess_registration(self, driver):
+    def test_transition_without_autorization_to_login_page(self, driver):
         #arrange
-        email, password = generate_registration_data()
-        driver.find_element(*Locators.REG_BUTTON).click()
-        driver.find_element(*Locators.EMAIL).send_keys(email)
-        driver.find_element(*Locators.PASSWORD).send_keys(password)
-        #act
-        driver.find_element(*Locators.REGISTER_BUTTON).click()
-        reg_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(Locators.REG_POPUP)).text
+        self.driver = driver
+        self.driver.get(main_site)
+
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_HEADER_LINK))
+        self.driver.find_element(*Locators.ACCOUNT_HEADER_LINK).click()
+
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.LOGIN_BUTTON))
         #assert
-        assert reg_text == 'Вы успешно зарегистрировались'
-        assert driver.current_url == main_site
 
-class TestCheckingCreationExistingAccount:
+        assert self.driver.current_url == account_login
 
-    def test_failed_registration(self, driver):
-        driver.find_element(*Locators.REG_BUTTON).click()
-        driver.find_element(*Locators.EMAIL).send_keys(Credentials.email)
-        driver.find_element(*Locators.PASSWORD).send_keys(Credentials.password)
-        driver.find_element(*Locators.REGISTER_BUTTON).click()
-        reg_text = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(Locators.REG_POPUP)).text
-        assert reg_text == 'Что-то пошло не так!\nПопробуйте ещё раз.'
+    def test_transition_with_autorization_to_account_page(self, driver_with_logout):
+        #arrange
+        self.driver = driver_with_logoutx
+        self.driver.get(account_login)
 
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.LOGIN_BUTTON))
+
+        self.driver.find_element(*Locators.LOGIN_EMAIL).send_keys(Credentials.email)
+        self.driver.find_element(*Locators.LOGIN_PASSWORD).send_keys(Credentials.password)
+        self.driver.find_element(*Locators.LOGIN_BUTTON).click()
+
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_HEADER_LINK))
+        self.driver.find_element(*Locators.ACCOUNT_HEADER_LINK).click()
+
+
+        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_LOGOUT_BUTTON))
+        #assert
+
+        assert self.driver.current_url == account_profile_url

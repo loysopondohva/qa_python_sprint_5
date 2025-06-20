@@ -15,7 +15,7 @@ class Locators:
     ACCOUNT_LOGIN_BUTTON    = (By.XPATH, "//main//button[contains(text(), 'Войти в аккаунт')]")
     BURGER_CONSTRUCTOR_BUTTON = (By.XPATH, "//section[contains(@class,'BurgerConstructor_basket')]//button")
     MAKE_ORDER_BUTTON       = (By.XPATH, "//main//button[contains(text(), 'Оформить заказ')]")
-    ACCOUNT_HEADER_LINK     = (By.XPATH, "//header//a[@href = '/account']")
+    ACCOUNT_HEADER_LINK     = (By.XPATH, "//header//a//p[contains(text(), 'Личный Кабинет')]")
     LOGO_HEADER_LINK        = (By.XPATH, "//header/nav/div/a[@href = '/']")
     CONSTRUCT_HEADER_LINK   = (By.XPATH, "//header/nav/ul/li/a[@href = '/']")
 
