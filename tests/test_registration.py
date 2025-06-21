@@ -58,4 +58,3 @@ class TestRegistrationForm:
         
         #assert        
         assert self.driver.current_url  == registration_url
-

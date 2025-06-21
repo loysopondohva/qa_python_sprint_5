@@ -35,3 +35,4 @@ class TestTransitionByClickAccountButton:
 
         #assert
         assert self.driver.current_url == account_profile_url
+        

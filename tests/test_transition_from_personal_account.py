@@ -38,3 +38,4 @@ class TestTransitionFromAccountProfile:
 
         #assert
         assert self.driver.current_url == main_site
+        
