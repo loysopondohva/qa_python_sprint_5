@@ -40,7 +40,7 @@ def driver_with_login_logout():
     browser.maximize_window()
     browser.get(account_url)
 
-    # Логинимся в личный кабинет
+    # Заходим в аккаунто пользователя
     WebDriverWait(browser, 5).until(EC.visibility_of_element_located(Locators.LOGIN_BUTTON))
     
     browser.find_element(*Locators.LOGIN_EMAIL).send_keys(Credentials.email)
