@@ -24,9 +24,9 @@ class TestTransitionByClickAccountButton:
         assert self.driver.current_url == account_login
 
     # Тест перехода по клику на "Личный кабинет" с авторизованным пользователем
-    def test_transition_with_autorization_to_account_page(self, driver_with_login_logout):
+    def test_transition_with_autorization_to_account_page(self, driver_with_login):
         #arrange
-        self.driver = driver_with_login_logout
+        self.driver = driver_with_login
         self.driver.get(main_site)      
         
         #act

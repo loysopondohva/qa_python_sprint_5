@@ -16,26 +16,10 @@ def driver():
     browser.maximize_window()
     yield browser
     browser.quit()
-
-
-# Авторизация и выход из аккаунта пользователя
-@pytest.fixture(scope="function")
-def driver_with_logout():
-    browser = webdriver.Chrome()
-    browser.maximize_window()
-
-    yield browser
     
-    # Выходим из аккаунта пользователя
-    browser.get(account_url)
-    WebDriverWait(browser, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_LOGOUT_BUTTON))
-    browser.find_element(*Locators.ACCOUNT_LOGOUT_BUTTON).click()
-    WebDriverWait(browser, 5).until(EC.url_matches(account_login))
-
-    browser.quit()
 
 @pytest.fixture(scope="function")
-def driver_with_login_logout():
+def driver_with_login():
     browser = webdriver.Chrome()
     browser.maximize_window()
     browser.get(account_url)
@@ -51,10 +35,4 @@ def driver_with_login_logout():
 
     yield browser
     
-    # Выходим из аккаунта пользователя
-    browser.get(account_url)
-    WebDriverWait(browser, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_LOGOUT_BUTTON))
-    browser.find_element(*Locators.ACCOUNT_LOGOUT_BUTTON).click()
-    WebDriverWait(browser, 5).until(EC.url_matches(account_login))
-
     browser.quit()

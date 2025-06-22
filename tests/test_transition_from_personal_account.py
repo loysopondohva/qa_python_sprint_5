@@ -9,9 +9,9 @@ from curl import *
 class TestTransitionFromAccountProfile:
 
     # Тест перехода из личного кабинета по клику на "Конструктор"
-    def test_by_click_to_contsructor_button_main_page(self, driver_with_login_logout):
+    def test_by_click_to_contsructor_button_main_page(self, driver_with_login):
         #arrange
-        self.driver = driver_with_login_logout
+        self.driver = driver_with_login
 
         self.driver.find_element(*Locators.ACCOUNT_HEADER_LINK).click()
         WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_LOGOUT_BUTTON))
@@ -25,9 +25,9 @@ class TestTransitionFromAccountProfile:
         assert self.driver.current_url == main_site
 
     # Тест перехода из личного кабинета по клику на логотип
-    def test_by_click_to_logo_main_page(self, driver_with_login_logout):
+    def test_by_click_to_logo_main_page(self, driver_with_login):
         #arrange
-        self.driver = driver_with_login_logout
+        self.driver = driver_with_login
 
         self.driver.find_element(*Locators.ACCOUNT_HEADER_LINK).click()
         WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(Locators.ACCOUNT_LOGOUT_BUTTON))
