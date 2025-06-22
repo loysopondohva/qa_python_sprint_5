@@ -6,11 +6,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from curl import *
-from data import Credentials
+from data import *
 from locators import Locators
 
 #  Подключаем webdriver для Chrome
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def driver():
     browser = webdriver.Chrome()
     browser.maximize_window()
@@ -19,7 +19,7 @@ def driver():
 
 
 # Авторизация и выход из аккаунта пользователя
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def driver_with_logout():
     browser = webdriver.Chrome()
     browser.maximize_window()
@@ -34,7 +34,7 @@ def driver_with_logout():
 
     browser.quit()
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def driver_with_login_logout():
     browser = webdriver.Chrome()
     browser.maximize_window()
